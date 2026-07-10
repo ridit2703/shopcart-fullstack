@@ -4,13 +4,23 @@ import Home from "./pages/Home.jsx";
 import Signup from "./pages/Signup";
 import ProductDetails from "./pages/ProductDetails"
 import Login from "./pages/Login"
+import AddProduct from './admin/AddProduct.jsx';
+import EditProduct from './admin/EditProduct.jsx';
+import ProductList from './admin/ProductList.jsx';
 // import './App.css'
 
 const router=createBrowserRouter([
   {path:"/",element:<Home/>},
   {path:"/login",element:<Login/>},
   {path:"/signup",element:<Signup/>},
-  {path:"/product/:id",element:<ProductDetails/>}
+  {path:"/product/:id",element:<ProductDetails/>},
+
+  {path:"/admin/products",element:<ProductList/>},
+  {path:"/admin/products/add/",element:<AddProduct/>},
+  {path:"/admin/products/edit/:id",element:<EditProduct/>}
+
+
+
 ]);
 
 
