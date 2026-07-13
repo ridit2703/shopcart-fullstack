@@ -25,7 +25,8 @@ export default function Login(){
       console.log(res,"data")
 
       //save token to local storage
-      localStorage.setItem("token",res.data.token )
+      localStorage.setItem("token",res.data.token );
+      localStorage.setItem("userId",res.data.user.id)
       setMsg("Login successfully")
 
       //redirect to homepage

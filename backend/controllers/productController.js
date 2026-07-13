@@ -22,8 +22,16 @@ export const createProduct =async (req,res)=>{
 
 export const getProducts=async(req,res)=>{
     try{
+        const {search,category}=req.query;
+        let filter={};
+        if(search){
+            filter.title={$regex: search,$options:'i'};
+        }
+        if(category){
+            filter.category=category;
+        }
 
-        const products=await Product.find().sort({createdAt:-1});
+        const products=await Product.find(filter).sort({createdAt:-1});
         res.json(products);
 
     }
