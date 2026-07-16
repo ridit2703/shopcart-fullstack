@@ -21,7 +21,7 @@ export default function Navbar(){
           return ()=>{
             window.removeEventListener("cartUpdated",loadCart)
           }
-    },{userId});
+    },[userId]);
 
     const logout=()=>{
         localStorage.clear();

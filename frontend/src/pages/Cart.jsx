@@ -1,9 +1,11 @@
 import { useState,useEffect } from "react";
 import api from '../api/axios';
+import { useNavigate } from "react-router";
 
 export default function Cart(){
     const userId =localStorage.getItem("userId");
     const[cart,setCart]=useState(null);
+    const navigate=useNavigate()
 
     //load cart data
 
@@ -89,6 +91,8 @@ export default function Cart(){
                             <h2 className="text-xl font-bold"> Total: Rs {total.toFixed(2)}</h2>
 
                         </div>
+                        <button onClick={()=>navigate("/checkout-address")} className="w-full bg-blue-500 text-white p-2 rounded ">Proceed to Checkout</button>
+
 
                     </div>
                 )
