@@ -39,13 +39,14 @@ const router = createBrowserRouter([
       { path: "/admin/products", element: <ProductList /> },
       { path: "/admin/products/add/", element: <AddProduct /> },
       { path: "/admin/products/edit/:id", element: <EditProduct /> },
+      {path:"/cart",element:<Cart/>},
       {
         path:"/checkout-address",element:<CheckoutAddress/>
       },
       {
         path:"/checkout",element:<Checkout/>
       },
-      {path:"/order-success/:id",element:<OrderSuccess/>}
+      {path:"/order-success/:id",element:<OrderSuccess/>},
     ]
   }
 

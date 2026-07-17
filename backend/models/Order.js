@@ -31,7 +31,8 @@ const OrderSchema=new mongoose.Schema({
         default:'COD'
     },
     status:{
+        type: String,
         default:'Placed'
-    },timestamps:true
-});
-export default mongoose.model("Order",orderSchema)
+    }
+},{timestamps:true});
+export default mongoose.model("Order",OrderSchema)

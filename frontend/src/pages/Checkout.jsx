@@ -62,7 +62,7 @@ export default function Checkout() {
                 ))
             }
             <p>Total Amount :Rs {total}</p>
-            <button onClick={placeOrder} className="mt-4 w-full bg-green-400 text-white p-2 rounded">Place Order</button>
+            <button onClick={placeOrdera} className="mt-4 w-full bg-green-400 text-white p-2 rounded">Place Order</button>
 
         </div>
     )

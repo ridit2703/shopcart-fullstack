@@ -1,8 +1,8 @@
 import Order from '../models/Order.js';
-import Cart from '../models/Cart.js.';
+import Cart from '../models/Cart.js';
 import product from '../models/product.js';
 
-export const placeorder = async (req, res) => {
+export const placeOrder = async (req, res) => {
     try {
         const { userId, address } = req.body;
         //get cart
