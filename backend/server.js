@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth",authRoutes);
 app.use("/api/products",productRoutes);
-app.use("/api/cart/:",cartRoutes);
+app.use("/api/cart/",cartRoutes);
 app.use("/api/address",addressRoutes)
 app.use("/api/order",orderRoutes)
 
