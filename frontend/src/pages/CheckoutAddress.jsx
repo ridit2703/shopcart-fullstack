@@ -22,6 +22,7 @@ export default function CheckoutAddress(){
      }
 
      const saveAddress=async(e)=>{
+        e.preventDefault();
         await api.post("/address/add",{
             ...form,
             userId,
@@ -34,7 +35,7 @@ export default function CheckoutAddress(){
         <div className="max-w-xl mx-auto p-6">
             <h1 className="text-2xl font-bold mb-4">Delivery Address</h1>
             {
-                Object.keys(form).map((key)=>{
+                Object.keys(form).map((key)=>(
                     <input 
                     key={key}
                     name={key}
@@ -42,7 +43,7 @@ export default function CheckoutAddress(){
                     onChange={handleChange}
                     className="w-full p-2 border border-gray-300 rounded"
                     />
-                })
+                ))
             }
             <button onClick={saveAddress} className="w-full bg-blue-500 text-white p-2">Save Address</button>
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import api from "../api/axios";
 import {useNavigate} from 'react-router'
 
@@ -53,7 +53,7 @@ export default function Checkout() {
                         <input type="radio" name="address" checked={selectAddress?._id===addr._id} onChange={()=>setSelectAddress(addr)} className="mr-2" />
                         <strong>{addr.fullName}</strong>
                         <p className="text-sm">
-                            {addr.addressLine},{addr.city},{addr.state}-{addr.pincode}
+                            {addr.addressLines},{addr.city},{addr.state}-{addr.pincode}
                         </p>
                         <p className="text-sm">
                             {addr.phone}
@@ -62,7 +62,7 @@ export default function Checkout() {
                 ))
             }
             <p>Total Amount :Rs {total}</p>
-            <button onClick={placeOrdera} className="mt-4 w-full bg-green-400 text-white p-2 rounded">Place Order</button>
+            <button onClick={placeOrder} className="mt-4 w-full bg-green-400 text-white p-2 rounded">Place Order</button>
 
         </div>
     )

@@ -10,10 +10,10 @@ export default function Navbar(){
     useEffect(()=>{
           const loadCart=async()=>{
             if(!userId) return setCartCount(0);
-            const res=await api.get(`./cart/${userId}`);
-            const total=res=res.data.items.reduce(
+            const res=await api.get(`/cart/${userId}`);
+            const total=res.data.items.reduce(
                 (sum,item)=>sum+item.quantity,0
-            );
+            )||0;
             setCartCount(total)
           }
           loadCart();
