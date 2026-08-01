@@ -8,8 +8,8 @@ export default function CheckoutAddress(){
 
      const [form,setForm]=useState({
         fullName:"",
-        phones:"",
-        addressLines:"",
+        phone:"",
+        addressLine:"",
         city:"",
         state:"",
         pincode:"",

@@ -1,6 +1,6 @@
 import Order from '../models/Order.js';
 import Cart from '../models/Cart.js';
-import product from '../models/product.js';
+import Product from '../models/product.js';
 
 export const placeOrder = async (req, res) => {
     try {
@@ -12,21 +12,21 @@ export const placeOrder = async (req, res) => {
 
         //prepare Order
         const orderItems = cart.items.map(item => ({
-            productId: item.productId._id,
+            product: item.productId._id,
             quantity: item.quantity,
-            price: item.productId.price,
+            prices: item.productId.price,
 
         }))
         //calculate totol amount
-        const totalAmount = orderItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const totalAmount = orderItems.reduce((total, item) => total + (item.prices * item.quantity), 0);
 
         //deduct 
         for (let item of cart.items) {
-            await product.findByIdAndUpdate(item.productId._id, { $inc: { stock: -item.quantity } })
+            await Product.findByIdAndUpdate(item.productId._id, { $inc: { stock: -item.quantity } })
         }
 
         //creat order
-        const order = await Order.creat({
+        const order = await Order.create({
             userId,
             items: orderItems,
             address,
@@ -38,7 +38,7 @@ export const placeOrder = async (req, res) => {
         res.status(201).json({ message: "Order placed sucessfully", order })
     }
     catch (error) {
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: error.message });
 
     }
 }
