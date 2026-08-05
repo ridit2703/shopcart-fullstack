@@ -25,13 +25,23 @@ export default function Login(){
       console.log(res,"data")
 
       //save token to local storage
-      localStorage.setItem("token",res.data.token );
-      localStorage.setItem("userId",res.data.user.id)
-      setMsg("Login successfully")
+      // localStorage.setItem("token",res.data.token );
+      // localStorage.setItem("userId",res.data.user.id)
+      // setMsg("Login successfully")
+
+      //save token
+      localStorage.setItem("token",res.data.token);
+      localStorage.setItem("user",JSON.stringify(res.data.user));
+      setMsg("login successfully")
 
       //redirect to homepage
       setTimeout(() => {
-        navigate("/");
+        if(res.data.user.role==="admin"){
+          navigate("/admin/products");
+        }
+        else{
+          navigate("/")
+        }
         
       }, 1000);
 

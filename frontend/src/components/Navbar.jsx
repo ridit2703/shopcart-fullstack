@@ -5,7 +5,8 @@ import api from "../api/axios"
 export default function Navbar(){
     const navigate=useNavigate();
     const [cartCount,setCartCount]=useState(0);
-    const userId=localStorage.getItem("userId")
+    const user=localStorage.getItem("user")
+    const userId=user?.id;
 
     useEffect(()=>{
           const loadCart=async()=>{
@@ -45,7 +46,7 @@ export default function Navbar(){
                 }
                 </Link>
                 {
-                    !userId ?(
+                    !user ?(
                         <>
                         <Link to ="/login" className="text-lg">Login</Link>
                         <Link to ="/signup" className="text-lg">Signup</Link>
