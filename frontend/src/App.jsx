@@ -12,6 +12,7 @@ import Cart from"./pages/Cart.jsx"
 import CheckoutAddress from './pages/CheckoutAddress.jsx';
 import Checkout from './pages/Checkout.jsx';
 import OrderSuccess from "./pages/OrderSuccess.jsx"
+import AdminRoute from "./components/AdminRoute.jsx"
 // import './App.css'
 
 function Layout() {
@@ -36,9 +37,12 @@ const router = createBrowserRouter([
       { path: "/signup", element: <Signup /> },
       { path: "/product/:id", element: <ProductDetails /> },
 
-      { path: "/admin/products", element: <ProductList /> },
-      { path: "/admin/products/add/", element: <AddProduct /> },
-      { path: "/admin/products/edit/:id", element: <EditProduct /> },
+      //{ path: "/admin/products", element: <ProductList /> },
+      //{ path: "/admin/products/add/", element: <AddProduct /> },
+      //{ path: "/admin/products/edit/:id", element: <EditProduct /> },
+      {path:"/admin/products",element:<AdminRoute><ProductList /></AdminRoute>},
+      {path:"/admin/products/add",element:<AdminRoute><AddProduct /></AdminRoute>},
+      {path:"/admin/products/edit/:id",element:<AdminRoute><EditProduct /></AdminRoute>},
       {path:"/cart",element:<Cart/>},
       {
         path:"/checkout-address",element:<CheckoutAddress/>
