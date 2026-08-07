@@ -13,6 +13,7 @@ import CheckoutAddress from './pages/CheckoutAddress.jsx';
 import Checkout from './pages/Checkout.jsx';
 import OrderSuccess from "./pages/OrderSuccess.jsx"
 import AdminRoute from "./components/AdminRoute.jsx"
+import Wishlist from './pages/Wishlist.jsx';
 // import './App.css'
 
 function Layout() {
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
         path:"/checkout",element:<Checkout/>
       },
       {path:"/order-success/:id",element:<OrderSuccess/>},
+      {path:"/Wishlist", element:<Wishlist/>}
     ]
   }
 

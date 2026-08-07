@@ -6,7 +6,8 @@ import Cart from '../models/Cart.js';
 // Add item to cart
 export const addToCart = async (req, res) => {
     try {
-        const { userId, productId } = req.body;
+        const {  productId } = req.body;
+         const userId=req.user.id;
 
         let cart = await Cart.findOne({ userId });
 
@@ -49,7 +50,8 @@ export const addToCart = async (req, res) => {
 // Remove item from cart
 export const removeItem = async (req, res) => {
     try {
-        const { userId, productId } = req.body;
+        const {  productId } = req.body;
+        const userId=req.user.id;
 
         const cart = await Cart.findOne({ userId });
 
@@ -82,7 +84,8 @@ export const removeItem = async (req, res) => {
 // Update quantity
 export const updateQuantity = async (req, res) => {
     try {
-        const { userId, productId, quantity } = req.body;
+        const {  productId, quantity } = req.body;
+         const userId=req.user.id;
 
         const cart = await Cart.findOne({ userId });
 

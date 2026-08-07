@@ -1,30 +1,30 @@
-import { useState,useEffect } from "react";
-import {Link,useNavigate} from "react-router"
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router"
 import api from "../api/axios"
 
-export default function Navbar(){
-    const navigate=useNavigate();
-    const [cartCount,setCartCount]=useState(0);
-    const user=localStorage.getItem("user")
-    const userId=user?.id;
+export default function Navbar() {
+    const navigate = useNavigate();
+    const [cartCount, setCartCount] = useState(0);
+    const user = localStorage.getItem("user")
+    const userId = user?.id;
 
-    useEffect(()=>{
-          const loadCart=async()=>{
-            if(!userId) return setCartCount(0);
-            const res=await api.get(`/cart/${userId}`);
-            const total=res.data.items.reduce(
-                (sum,item)=>sum+item.quantity,0
-            )||0;
+    useEffect(() => {
+        const loadCart = async () => {
+            if (!userId) return setCartCount(0);
+            const res = await api.get(`/cart/${userId}`);
+            const total = res.data.items.reduce(
+                (sum, item) => sum + item.quantity, 0
+            ) || 0;
             setCartCount(total)
-          }
-          loadCart();
-          window.addEventListener("cartUpdated",loadCart);
-          return ()=>{
-            window.removeEventListener("cartUpdated",loadCart)
-          }
-    },[userId]);
+        }
+        loadCart();
+        window.addEventListener("cartUpdated", loadCart);
+        return () => {
+            window.removeEventListener("cartUpdated", loadCart)
+        }
+    }, [userId]);
 
-    const logout=()=>{
+    const logout = () => {
         localStorage.clear();
         setCartCount(0);
         navigate("/login")
@@ -36,23 +36,29 @@ export default function Navbar(){
 
             <div className="flex gap-4 items-center">
                 <Link to="/cart" className="relative text-xl">
-                👜
-                {
-                    cartCount>0 && (
-                        <span className="absolute top-2 right-3 bg-red-500 text-white rounded-full text-xs w-5 flex items-center justify-center ">
-                            {cartCount}
-                        </span>
-                    )
-                }
+                    👜
+                    {
+                        cartCount > 0 && (
+                            <span className="absolute top-2 right-3 bg-red-500 text-white rounded-full text-xs w-5 flex items-center justify-center ">
+                                {cartCount}
+                            </span>
+                        )
+                    }
+                </Link>
+                <Link
+                    to="/wishlist"
+                    className="text-black text-lg hover:text-pink-500"
+                >
+                    ❤️ Wishlist
                 </Link>
                 {
-                    !user ?(
+                    !user ? (
                         <>
-                        <Link to ="/login" className="text-lg">Login</Link>
-                        <Link to ="/signup" className="text-lg">Signup</Link>
-                        
+                            <Link to="/login" className="text-lg">Login</Link>
+                            <Link to="/signup" className="text-lg">Signup</Link>
+
                         </>
-                    ):(
+                    ) : (
                         <button onClick={logout} className="text-lg">Logout</button>
                     )
                 }

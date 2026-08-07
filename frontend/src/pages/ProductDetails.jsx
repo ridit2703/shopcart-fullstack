@@ -17,21 +17,18 @@ export default function ProductDetails() {
   const handleAddToCart = async () => {
     const userId = localStorage.getItem("userId");
 
-    if (!userId) {
-      alert("Please login first");
-      return;
-    }
+    
     try {
 
       await api.post("/cart/add", {
-        userId,
+        
         productId: product._id,
       })
       alert("item added to cart");
 
     }
     catch (err) {
-      console.log(err.response?.data);
+      console.log(err.response?.data?.message||"error");
 
     }
   }
@@ -41,6 +38,17 @@ export default function ProductDetails() {
 
   if (!product) {
     return <div>loading..</div>;
+  }
+  const handleAddToWishlist = async () => {
+    try {
+      await api.post(`/wishlist/${product._id}`);
+      alert("product added to wishlist")
+
+    }
+    catch (error) {
+      alert(error.response?.data?.message || "Error")
+
+    }
   }
 
   return (
@@ -54,7 +62,14 @@ export default function ProductDetails() {
 
       <button onClick={handleAddToCart} className="mt-6 px-4 bg-blue-600 text-white rounded hover:bg-blue-900"
       >Add to Cart</button>
+      <button
+        onClick={handleAddToWishlist}
+        className="mt-4 ml-3 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700"
+      >
+        ❤️ Add to Wishlist
+      </button>
 
     </div>
+
   )
 }
