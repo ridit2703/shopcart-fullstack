@@ -3,21 +3,21 @@ import api from "../api/axios";
 import { useNavigate } from 'react-router'
 
 export default function Checkout() {
-    const userId = localStorage.getItem("userId");
+   //const userId = localStorage.getItem("userId");
     const [address, setAddress] = useState([])
     const [selectAddress, setSelectAddress] = useState(null)
     const [cart, setCart] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!userId) {
-            navigate("/login");
-            return;
+        // if (!userId) {
+        //     navigate("/login");
+        //     return;
 
-        }
+        // }
 
-        api.get(`/cart/${userId}`).then((res) => setCart(res.data));
-        api.get(`/address/${userId}`).then((res) => {
+        api.get(`/cart`).then((res) => setCart(res.data));
+        api.get(`/address`).then((res) => {
             setAddress(res.data);
             setSelectAddress(res.data[0]);
 
@@ -44,13 +44,13 @@ export default function Checkout() {
 
         try {
             const res = await api.post("/order/place", {
-                userId,
+                
                 address: selectAddress,
             });
 
             console.log("Order placed:", res.data);
 
-            Example:
+            
             
             navigate(`/order-success/${res.data.order._id}`);
         } catch (err) {
@@ -69,7 +69,7 @@ export default function Checkout() {
                         <input type="radio" name="address" checked={selectAddress?._id === addr._id} onChange={() => setSelectAddress(addr)} className="mr-2" />
                         <strong>{addr.fullName}</strong>
                         <p className="text-sm">
-                            {addr.addressLines},{addr.city},{addr.state}-{addr.pincode}
+                            {addr.addressLine},{addr.city},{addr.state}-{addr.pincode}
                         </p>
                         <p className="text-sm">
                             {addr.phone}

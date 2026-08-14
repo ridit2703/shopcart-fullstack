@@ -14,6 +14,6 @@ router.post("/remove",protect,removeItem);
 router.post("/update",protect,updateQuantity);
 
 //get user cart
-router.get("/:userId",protect,getCart);
+router.get("/",protect,getCart);
 
 export default router;

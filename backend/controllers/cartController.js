@@ -2,6 +2,7 @@
 
 
 import Cart from '../models/Cart.js';
+import User from '../models/User.js'
 
 // Add item to cart
 export const addToCart = async (req, res) => {
@@ -126,15 +127,18 @@ export const updateQuantity = async (req, res) => {
 // Get cart by user ID
 export const getCart = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const userId=req.user.id
 
         const cart = await Cart.findOne({ userId })
             .populate('items.productId');
 
         if (!cart) {
-            return res.status(404).json({
-                message: "Cart not found"
-            });
+            // return res.status(404).json({
+            //     message: "Cart not found"
+            // });
+            return res.json({
+                userId,items:[]
+            })
         }
 
         res.json(cart);

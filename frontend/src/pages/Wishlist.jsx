@@ -1,8 +1,10 @@
 import { useState,useEffect } from "react";
 import api from '../api/axios.js';
+import { useNavigate } from 'react-router'
 
 export default function Wishlist(){
     const [wishlist,setWishlist]=useState([]);
+    const navigate = useNavigate();
 
     const loadWishlist=async()=>{
         try{
@@ -59,10 +61,18 @@ export default function Wishlist(){
 
               <button
                 onClick={() => removeFromWishlist(product._id)}
-                className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                className="mt-4 bg-red-500 text-white px-4 py-4 mr-4 rounded hover:bg-red-700"
               >
                 Remove
               </button>
+              <button
+                        onClick={() =>
+                            navigate("/checkout-address")
+                        }
+                        className=" bg-blue-500 text-white px-4 py-4 rounded hover:bg-blue-700"
+                    >
+                        Proceed to Checkout
+                    </button>
             </div>
           ))}
         </div>

@@ -3,7 +3,7 @@ import api from "../api/axios";
 import { useNavigate } from "react-router";
 
 export default function CheckoutAddress(){
-    const userId=localStorage.getItem("userId");
+    //const userId=localStorage.getItem("userId");
     const navigate=useNavigate();
 
      const [form,setForm]=useState({
