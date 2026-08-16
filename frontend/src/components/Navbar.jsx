@@ -5,7 +5,8 @@ import api from "../api/axios"
 export default function Navbar() {
     const navigate = useNavigate();
     const [cartCount, setCartCount] = useState(0);
-    const user = localStorage.getItem("user")
+    const storedUser = localStorage.getItem("user");
+    const user = storedUser ? JSON.parse(storedUser) : null;
     const userId = user?.id;
 
     useEffect(() => {
@@ -58,8 +59,15 @@ export default function Navbar() {
                             <Link to="/signup" className="text-lg">Signup</Link>
 
                         </>
-                    ) : (
+                    ) : (<>
+                        <Link
+                            to="/profile"
+                            className="text-lg hover:text-blue-500"
+                        >
+                            👤 Profile
+                        </Link>
                         <button onClick={logout} className="text-lg">Logout</button>
+                    </>
                     )
                 }
             </div>
