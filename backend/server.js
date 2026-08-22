@@ -1,6 +1,9 @@
+
 import express from  'express'
 import cors from 'cors';
 import dotenv from 'dotenv'
+import "dotenv/config";
+
 import connectDB from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
 import productRoutes from "./routes/productRoutes.js"
@@ -10,7 +13,9 @@ import orderRoutes from './routes/orderRoutes.js';
 import wishlistRoutes from './routes/wishlistRoutes.js'
 import profileRoutes from './routes/profileRoutes.js'
 
-dotenv.config();
+
+console.log("API KEY:", process.env.CLOUDINARY_API_KEY);
+console.log("CLOUD NAME:", process.env.CLOUDINARY_CLOUD_NAME);
 const app=express()
 
 app.use(cors());
