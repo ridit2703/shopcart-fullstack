@@ -4,7 +4,13 @@ import Product from '../models/product.js';
 
 export const placeOrder = async (req, res) => {
     try {
-        const { userId, address } = req.body;
+        //const { userId, address } = req.body;
+        console.log("REQ.USER:", req.user);
+        console.log("REQ.BODY:", req.body);
+
+
+                const userId = req.user.id;
+        const { address } = req.body;
         //get cart
         const cart = await Cart.findOne({ userId }).populate('items.productId')
         if (!cart || cart.items.length === 0) return res.status(400).json({ message: "Cart is empty" })
