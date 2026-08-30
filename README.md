@@ -20,10 +20,20 @@ shopcart/
 
 ## Features
 
-- ✅ User Authentication
+- ✅ User Registration & Login
 - ✅ Product Listing
 - ✅ Product Details
 - ✅ Shopping Cart (In Progress)
+- ✅ JWT Authentication & Authorization
+- ✅ Product Categories
+- ✅ Product Search
+- ✅ Wishlist
+- ✅ Shopping Cart
 
+## Features InProgress
+- 🔨 Stripe Payment Integration — In Progress
+- 🔨 Inventory Management — In Progress
 
-
+## ☁️ Cloud Integration
+- ✅ Cloudinary integration for product images
+- 🔨 Stripe payment integration
