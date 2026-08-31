@@ -14,8 +14,6 @@ import wishlistRoutes from './routes/wishlistRoutes.js'
 import profileRoutes from './routes/profileRoutes.js'
 
 
-console.log("API KEY:", process.env.CLOUDINARY_API_KEY);
-console.log("CLOUD NAME:", process.env.CLOUDINARY_CLOUD_NAME);
 const app=express()
 
 app.use(cors());
