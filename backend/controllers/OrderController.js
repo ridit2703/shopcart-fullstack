@@ -12,7 +12,7 @@ export const placeOrder = async (req, res) => {
 
         const userId = req.user.id;
         const { address } = req.body;
-
+        
         //check address
          if (!address) {
             return res.status(400).json({
