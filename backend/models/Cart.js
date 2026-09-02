@@ -4,7 +4,8 @@ const CartSchema=new mongoose.Schema({
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
-        required:true
+        required:true,
+        unique:true
     },
     items: [
     {
@@ -15,6 +16,8 @@ const CartSchema=new mongoose.Schema({
       },
       quantity: {
         type:Number,
+        required:true,
+        min:1,
         
         default: 1,
       },

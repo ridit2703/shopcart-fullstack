@@ -8,10 +8,10 @@ const router=express.Router();
 router.post("/add",protect,addToCart);
 
 //remove item 
-router.post("/remove",protect,removeItem);
+router.delete("/remove",protect,removeItem);
 
 //update quantity
-router.post("/update",protect,updateQuantity);
+router.put("/update",protect,updateQuantity);
 
 //get user cart
 router.get("/",protect,getCart);

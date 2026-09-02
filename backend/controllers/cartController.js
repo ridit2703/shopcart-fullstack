@@ -2,13 +2,19 @@
 
 
 import Cart from '../models/Cart.js';
-import User from '../models/User.js'
+
 
 // Add item to cart
 export const addToCart = async (req, res) => {
     try {
         const {  productId } = req.body;
          const userId=req.user.id;
+
+         if (!productId) {
+      return res.status(400).json({
+        message: "Product ID is required",
+      });
+    }
 
         let cart = await Cart.findOne({ userId });
 
@@ -34,7 +40,7 @@ export const addToCart = async (req, res) => {
 
         await cart.save();
 
-        res.json({
+        resstatus(200).json({
             message: "Item added to cart",
             cart
         });
@@ -54,6 +60,12 @@ export const removeItem = async (req, res) => {
         const {  productId } = req.body;
         const userId=req.user.id;
 
+        if (!productId) {
+      return res.status(400).json({
+        message: "Product ID is required",
+      });
+    }
+
         const cart = await Cart.findOne({ userId });
 
         if (!cart) {
@@ -68,7 +80,7 @@ export const removeItem = async (req, res) => {
 
         await cart.save();
 
-        res.json({
+        res.status(200).json({
             message: "Item removed from cart",
             cart
         });
@@ -87,6 +99,18 @@ export const updateQuantity = async (req, res) => {
     try {
         const {  productId, quantity } = req.body;
          const userId=req.user.id;
+
+         if (!productId || quantity === undefined) {
+      return res.status(400).json({
+        message: "Product ID and quantity are required",
+      });
+    }
+
+    if (quantity < 1) {
+      return res.status(400).json({
+        message: "Quantity must be at least 1",
+      });
+    }
 
         const cart = await Cart.findOne({ userId });
 
@@ -136,7 +160,7 @@ export const getCart = async (req, res) => {
             // return res.status(404).json({
             //     message: "Cart not found"
             // });
-            return res.json({
+            return res.status(200).json({
                 userId,items:[]
             })
         }
@@ -146,7 +170,7 @@ export const getCart = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: "Server Error",
-            error
+            error:error.message,
         });
     }
 };

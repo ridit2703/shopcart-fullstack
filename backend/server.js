@@ -1,8 +1,7 @@
 import "dotenv/config";
 import express from  'express'
 import cors from 'cors';
-import dotenv from 'dotenv'
-//import "dotenv/config";
+
 
 import connectDB from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
@@ -21,7 +20,7 @@ app.post("/api/payment/webhook",express.raw({type:"application/json"}),stripeWeb
 app.use(express.json());
 app.use("/api/auth",authRoutes);
 app.use("/api/products",productRoutes);
-app.use("/api/cart/",cartRoutes);
+app.use("/api/cart",cartRoutes);
 app.use("/api/address",addressRoutes)
 app.use("/api/order",orderRoutes)
 app.use("/api/wishlist",wishlistRoutes)
