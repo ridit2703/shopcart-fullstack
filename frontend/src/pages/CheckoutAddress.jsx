@@ -1,287 +1,681 @@
 
+// import { useState, useEffect } from "react";
+// import api from "../api/axios";
+// import { useNavigate } from "react-router";
+
+// export default function CheckoutAddress() {
+
+//   const [addresses, setAddresses] = useState([]);
+//   const [addressLoading, setAddressLoading] = useState(true);
+//   const navigate = useNavigate();
+
+//   const [form, setForm] = useState({
+//     fullName: "",
+//     phone: "",
+//     addressLine: "",
+//     city: "",
+//     state: "",
+//     pincode: "",
+//   });
+
+//   const [errors, setErrors] = useState({});
+//   const [loading, setLoading] = useState(false);
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+
+//     setForm((prev) => ({
+//       ...prev,
+//       [name]: value,
+//     }));
+
+//     // Remove error when user changes the field
+//     setErrors((prev) => ({
+//       ...prev,
+//       [name]: "",
+//     }));
+//   };
+
+//   const validate = () => {
+//     const newErrors = {};
+
+//     // Full name
+//     if (!form.fullName.trim()) {
+//       newErrors.fullName = "Full name is required";
+//     } else if (form.fullName.trim().length < 2) {
+//       newErrors.fullName =
+//         "Full name must be at least 2 characters";
+//     } else if (form.fullName.trim().length > 50) {
+//       newErrors.fullName =
+//         "Full name cannot exceed 50 characters";
+//     }
+
+//     // Phone
+//     if (!form.phone.trim()) {
+//       newErrors.phone = "Phone number is required";
+//     } else if (!/^[6-9]\d{9}$/.test(form.phone.trim())) {
+//       newErrors.phone =
+//         "Enter a valid 10-digit Indian mobile number";
+//     }
+
+//     // Address
+//     if (!form.addressLine.trim()) {
+//       newErrors.addressLine = "Address is required";
+//     } else if (form.addressLine.trim().length < 5) {
+//       newErrors.addressLine =
+//         "Address must be at least 5 characters";
+//     } else if (form.addressLine.trim().length > 200) {
+//       newErrors.addressLine =
+//         "Address cannot exceed 200 characters";
+//     }
+
+//     // City
+//     if (!form.city.trim()) {
+//       newErrors.city = "City is required";
+//     } else if (form.city.trim().length < 2) {
+//       newErrors.city = "City must be at least 2 characters";
+//     }
+
+//     // State
+//     if (!form.state.trim()) {
+//       newErrors.state = "State is required";
+//     } else if (form.state.trim().length < 2) {
+//       newErrors.state = "State must be at least 2 characters";
+//     }
+
+//     // Pincode
+//     if (!form.pincode.trim()) {
+//       newErrors.pincode = "Pincode is required";
+//     } else if (!/^[1-9][0-9]{5}$/.test(form.pincode.trim())) {
+//       newErrors.pincode =
+//         "Enter a valid 6-digit pincode";
+//     }
+
+//     return newErrors;
+//   };
+
+//   const fetchAddresses = async () => {
+//     try {
+//       setAddressLoading(true);
+
+//       const response = await api.get("/address");
+
+//       setAddresses(response.data);
+//     } catch (error) {
+//       console.error("Fetch addresses error:", error);
+//     } finally {
+//       setAddressLoading(false);
+//     }
+//   };
+//   useEffect(() => {
+//     fetchAddresses();
+//   }, []);
+
+//   const saveAddress = async (e) => {
+//     e.preventDefault();
+
+//     // Frontend validation
+//     const validationErrors = validate();
+
+//     if (Object.keys(validationErrors).length > 0) {
+//       setErrors(validationErrors);
+//       return;
+//     }
+
+//     try {
+//       setLoading(true);
+
+//       // Don't send userId from frontend
+//       //const response = await api.post("/address/add", form);
+
+//       // console.log(response.data);
+
+//       // navigate("/checkout");
+
+//       await api.post("/address/add", form);
+//       navigate("/checkout");
+//       // await fetchAddresses();
+//       // setForm({
+//       //   fullName: "",
+//       //   phone: "",
+//       //   addressLine: "",
+//       //   city: "",
+//       //   state: "",
+//       //   pincode: "",
+//       // });
+//     } catch (error) {
+//       console.error("Address save error:", error);
+      
+//       // Backend validation errors
+//       if (error.response?.data?.errors) {
+//         setErrors(error.response.data.errors);
+//       } else {
+//         alert(
+//           error.response?.data?.message ||
+//           "Failed to save address"
+//         );
+//       }
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="max-w-xl mx-auto p-6">
+//       <h1 className="text-2xl font-bold mb-4">
+//         Delivery Address
+//       </h1>
+
+     
+
+
+//       <form onSubmit={saveAddress} className="space-y-4">
+
+//         {/* Full Name */}
+//         <div>
+//           <input
+//             type="text"
+//             name="fullName"
+//             value={form.fullName}
+//             placeholder="Full Name"
+//             onChange={handleChange}
+//             className={`w-full p-2 border rounded ${errors.fullName
+//                 ? "border-red-500"
+//                 : "border-gray-300"
+//               }`}
+//           />
+
+//           {errors.fullName && (
+//             <p className="text-red-500 text-sm mt-1">
+//               {errors.fullName}
+//             </p>
+//           )}
+//         </div>
+
+//         {/* Phone */}
+//         <div>
+//           <input
+//             type="tel"
+//             name="phone"
+//             value={form.phone}
+//             placeholder="Phone Number"
+//             maxLength={10}
+//             onChange={handleChange}
+//             className={`w-full p-2 border rounded ${errors.phone
+//                 ? "border-red-500"
+//                 : "border-gray-300"
+//               }`}
+//           />
+
+//           {errors.phone && (
+//             <p className="text-red-500 text-sm mt-1">
+//               {errors.phone}
+//             </p>
+//           )}
+//         </div>
+
+//         {/* Address */}
+//         <div>
+//           <input
+//             type="text"
+//             name="addressLine"
+//             value={form.addressLine}
+//             placeholder="Address"
+//             onChange={handleChange}
+//             className={`w-full p-2 border rounded ${errors.addressLine
+//                 ? "border-red-500"
+//                 : "border-gray-300"
+//               }`}
+//           />
+
+//           {errors.addressLine && (
+//             <p className="text-red-500 text-sm mt-1">
+//               {errors.addressLine}
+//             </p>
+//           )}
+//         </div>
+
+//         {/* City */}
+//         <div>
+//           <input
+//             type="text"
+//             name="city"
+//             value={form.city}
+//             placeholder="City"
+//             onChange={handleChange}
+//             className={`w-full p-2 border rounded ${errors.city
+//                 ? "border-red-500"
+//                 : "border-gray-300"
+//               }`}
+//           />
+
+//           {errors.city && (
+//             <p className="text-red-500 text-sm mt-1">
+//               {errors.city}
+//             </p>
+//           )}
+//         </div>
+
+//         {/* State */}
+//         <div>
+//           <input
+//             type="text"
+//             name="state"
+//             value={form.state}
+//             placeholder="State"
+//             onChange={handleChange}
+//             className={`w-full p-2 border rounded ${errors.state
+//                 ? "border-red-500"
+//                 : "border-gray-300"
+//               }`}
+//           />
+
+//           {errors.state && (
+//             <p className="text-red-500 text-sm mt-1">
+//               {errors.state}
+//             </p>
+//           )}
+//         </div>
+
+//         {/* Pincode */}
+//         <div>
+//           <input
+//             type="text"
+//             name="pincode"
+//             value={form.pincode}
+//             placeholder="Pincode"
+//             maxLength={6}
+//             onChange={handleChange}
+//             className={`w-full p-2 border rounded ${errors.pincode
+//                 ? "border-red-500"
+//                 : "border-gray-300"
+//               }`}
+//           />
+
+//           {errors.pincode && (
+//             <p className="text-red-500 text-sm mt-1">
+//               {errors.pincode}
+//             </p>
+//           )}
+//         </div>
+
+//         {/* Submit */}
+//         <button
+//           type="submit"
+//           disabled={loading}
+//           className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded disabled:bg-gray-400"
+//         >
+//           {loading ? "Saving..." : "Save Address"}
+//         </button>
+
+//       </form>
+//     </div>
+//   );
+// }
+
+
+
+
 import { useState } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router";
 
 export default function CheckoutAddress() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    fullName: "",
-    phone: "",
-    addressLine: "",
-    city: "",
-    state: "",
-    pincode: "",
-  });
+    const [form, setForm] = useState({
+        fullName: "",
+        phone: "",
+        addressLine: "",
+        city: "",
+        state: "",
+        pincode: "",
+    });
 
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+    // =========================================
+    // HANDLE INPUT CHANGE
+    // =========================================
 
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const handleChange = (e) => {
+        const { name, value } = e.target;
 
-    // Remove error when user changes the field
-    setErrors((prev) => ({
-      ...prev,
-      [name]: "",
-    }));
-  };
+        setForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
 
-  const validate = () => {
-    const newErrors = {};
+        setErrors((prev) => ({
+            ...prev,
+            [name]: "",
+        }));
+    };
 
-    // Full name
-    if (!form.fullName.trim()) {
-      newErrors.fullName = "Full name is required";
-    } else if (form.fullName.trim().length < 2) {
-      newErrors.fullName =
-        "Full name must be at least 2 characters";
-    } else if (form.fullName.trim().length > 50) {
-      newErrors.fullName =
-        "Full name cannot exceed 50 characters";
-    }
+    // =========================================
+    // VALIDATION
+    // =========================================
 
-    // Phone
-    if (!form.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    } else if (!/^[6-9]\d{9}$/.test(form.phone.trim())) {
-      newErrors.phone =
-        "Enter a valid 10-digit Indian mobile number";
-    }
+    const validate = () => {
+        const newErrors = {};
 
-    // Address
-    if (!form.addressLine.trim()) {
-      newErrors.addressLine = "Address is required";
-    } else if (form.addressLine.trim().length < 5) {
-      newErrors.addressLine =
-        "Address must be at least 5 characters";
-    } else if (form.addressLine.trim().length > 200) {
-      newErrors.addressLine =
-        "Address cannot exceed 200 characters";
-    }
+        // Full Name
+        if (!form.fullName.trim()) {
+            newErrors.fullName = "Full name is required";
+        } else if (form.fullName.trim().length < 2) {
+            newErrors.fullName =
+                "Full name must be at least 2 characters";
+        } else if (form.fullName.trim().length > 50) {
+            newErrors.fullName =
+                "Full name cannot exceed 50 characters";
+        }
 
-    // City
-    if (!form.city.trim()) {
-      newErrors.city = "City is required";
-    } else if (form.city.trim().length < 2) {
-      newErrors.city = "City must be at least 2 characters";
-    }
+        // Phone
+        if (!form.phone.trim()) {
+            newErrors.phone = "Phone number is required";
+        } else if (!/^[6-9]\d{9}$/.test(form.phone.trim())) {
+            newErrors.phone =
+                "Enter a valid 10-digit Indian mobile number";
+        }
 
-    // State
-    if (!form.state.trim()) {
-      newErrors.state = "State is required";
-    } else if (form.state.trim().length < 2) {
-      newErrors.state = "State must be at least 2 characters";
-    }
+        // Address
+        if (!form.addressLine.trim()) {
+            newErrors.addressLine = "Address is required";
+        } else if (form.addressLine.trim().length < 5) {
+            newErrors.addressLine =
+                "Address must be at least 5 characters";
+        } else if (form.addressLine.trim().length > 200) {
+            newErrors.addressLine =
+                "Address cannot exceed 200 characters";
+        }
 
-    // Pincode
-    if (!form.pincode.trim()) {
-      newErrors.pincode = "Pincode is required";
-    } else if (!/^[1-9][0-9]{5}$/.test(form.pincode.trim())) {
-      newErrors.pincode =
-        "Enter a valid 6-digit pincode";
-    }
+        // City
+        if (!form.city.trim()) {
+            newErrors.city = "City is required";
+        } else if (form.city.trim().length < 2) {
+            newErrors.city =
+                "City must be at least 2 characters";
+        }
 
-    return newErrors;
-  };
+        // State
+        if (!form.state.trim()) {
+            newErrors.state = "State is required";
+        } else if (form.state.trim().length < 2) {
+            newErrors.state =
+                "State must be at least 2 characters";
+        }
 
-  const saveAddress = async (e) => {
-    e.preventDefault();
+        // Pincode
+        if (!form.pincode.trim()) {
+            newErrors.pincode = "Pincode is required";
+        } else if (!/^[1-9][0-9]{5}$/.test(form.pincode.trim())) {
+            newErrors.pincode =
+                "Enter a valid 6-digit pincode";
+        }
 
-    // Frontend validation
-    const validationErrors = validate();
+        return newErrors;
+    };
 
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+    // =========================================
+    // SAVE ADDRESS
+    // =========================================
 
-    try {
-      setLoading(true);
+    const saveAddress = async (e) => {
+        e.preventDefault();
 
-      // Don't send userId from frontend
-      const response = await api.post("/address/add", form);
+        // IMPORTANT:
+        // Prevent duplicate API requests
+        if (loading) {
+            return;
+        }
 
-      console.log(response.data);
+        // Frontend validation
+        const validationErrors = validate();
 
-      navigate("/checkout");
-    } catch (error) {
-      console.error("Address save error:", error);
-          console.log("STATUS:", error.response?.status);
-    console.log("DATA:", error.response?.data);
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
 
-      // Backend validation errors
-      if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
-      } else {
-        alert(
-          error.response?.data?.message ||
-            "Failed to save address"
-        );
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+        try {
+            setLoading(true);
 
-  return (
-    <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">
-        Delivery Address
-      </h1>
+            // Do NOT send userId.
+            // Backend gets userId from req.user.id.
+            const response = await api.post(
+                "/address/add",
+                {
+                    fullName: form.fullName.trim(),
+                    phone: form.phone.trim(),
+                    addressLine: form.addressLine.trim(),
+                    city: form.city.trim(),
+                    state: form.state.trim(),
+                    pincode: form.pincode.trim(),
+                }
+            );
 
-      <form onSubmit={saveAddress} className="space-y-4">
+            console.log(
+                "Address saved:",
+                response.data
+            );
 
-        {/* Full Name */}
-        <div>
-          <input
-            type="text"
-            name="fullName"
-            value={form.fullName}
-            placeholder="Full Name"
-            onChange={handleChange}
-            className={`w-full p-2 border rounded ${
-              errors.fullName
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
-          />
+            // Go back to checkout.
+            // Checkout will fetch the latest 3 addresses.
+            navigate("/checkout");
 
-          {errors.fullName && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.fullName}
-            </p>
-          )}
+        } catch (error) {
+            console.error(
+                "Address save error:",
+                error
+            );
+
+            // Backend validation errors
+            if (error.response?.data?.errors) {
+                setErrors(
+                    error.response.data.errors
+                );
+            } else {
+                alert(
+                    error.response?.data?.message ||
+                    "Failed to save address"
+                );
+            }
+
+            // Allow retry if request failed
+            setLoading(false);
+        }
+    };
+
+    // =========================================
+    // UI
+    // =========================================
+
+    return (
+        <div className="max-w-xl mx-auto p-6">
+
+            <h1 className="text-2xl font-bold mb-4">
+                Delivery Address
+            </h1>
+
+            <form
+                onSubmit={saveAddress}
+                className="space-y-4"
+            >
+
+                {/* ================================= */}
+                {/* FULL NAME */}
+                {/* ================================= */}
+
+                <div>
+                    <input
+                        type="text"
+                        name="fullName"
+                        value={form.fullName}
+                        placeholder="Full Name"
+                        onChange={handleChange}
+                        disabled={loading}
+                        className={`w-full p-2 border rounded ${
+                            errors.fullName
+                                ? "border-red-500"
+                                : "border-gray-300"
+                        }`}
+                    />
+
+                    {errors.fullName && (
+                        <p className="text-red-500 text-sm mt-1">
+                            {errors.fullName}
+                        </p>
+                    )}
+                </div>
+
+                {/* ================================= */}
+                {/* PHONE */}
+                {/* ================================= */}
+
+                <div>
+                    <input
+                        type="tel"
+                        name="phone"
+                        value={form.phone}
+                        placeholder="Phone Number"
+                        maxLength={10}
+                        onChange={handleChange}
+                        disabled={loading}
+                        className={`w-full p-2 border rounded ${
+                            errors.phone
+                                ? "border-red-500"
+                                : "border-gray-300"
+                        }`}
+                    />
+
+                    {errors.phone && (
+                        <p className="text-red-500 text-sm mt-1">
+                            {errors.phone}
+                        </p>
+                    )}
+                </div>
+
+                {/* ================================= */}
+                {/* ADDRESS */}
+                {/* ================================= */}
+
+                <div>
+                    <input
+                        type="text"
+                        name="addressLine"
+                        value={form.addressLine}
+                        placeholder="Address"
+                        onChange={handleChange}
+                        disabled={loading}
+                        className={`w-full p-2 border rounded ${
+                            errors.addressLine
+                                ? "border-red-500"
+                                : "border-gray-300"
+                        }`}
+                    />
+
+                    {errors.addressLine && (
+                        <p className="text-red-500 text-sm mt-1">
+                            {errors.addressLine}
+                        </p>
+                    )}
+                </div>
+
+                {/* ================================= */}
+                {/* CITY */}
+                {/* ================================= */}
+
+                <div>
+                    <input
+                        type="text"
+                        name="city"
+                        value={form.city}
+                        placeholder="City"
+                        onChange={handleChange}
+                        disabled={loading}
+                        className={`w-full p-2 border rounded ${
+                            errors.city
+                                ? "border-red-500"
+                                : "border-gray-300"
+                        }`}
+                    />
+
+                    {errors.city && (
+                        <p className="text-red-500 text-sm mt-1">
+                            {errors.city}
+                        </p>
+                    )}
+                </div>
+
+                {/* ================================= */}
+                {/* STATE */}
+                {/* ================================= */}
+
+                <div>
+                    <input
+                        type="text"
+                        name="state"
+                        value={form.state}
+                        placeholder="State"
+                        onChange={handleChange}
+                        disabled={loading}
+                        className={`w-full p-2 border rounded ${
+                            errors.state
+                                ? "border-red-500"
+                                : "border-gray-300"
+                        }`}
+                    />
+
+                    {errors.state && (
+                        <p className="text-red-500 text-sm mt-1">
+                            {errors.state}
+                        </p>
+                    )}
+                </div>
+
+                {/* ================================= */}
+                {/* PINCODE */}
+                {/* ================================= */}
+
+                <div>
+                    <input
+                        type="text"
+                        name="pincode"
+                        value={form.pincode}
+                        placeholder="Pincode"
+                        maxLength={6}
+                        onChange={handleChange}
+                        disabled={loading}
+                        className={`w-full p-2 border rounded ${
+                            errors.pincode
+                                ? "border-red-500"
+                                : "border-gray-300"
+                        }`}
+                    />
+
+                    {errors.pincode && (
+                        <p className="text-red-500 text-sm mt-1">
+                            {errors.pincode}
+                        </p>
+                    )}
+                </div>
+
+                {/* ================================= */}
+                {/* SAVE BUTTON */}
+                {/* ================================= */}
+
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded disabled:bg-gray-400"
+                >
+                    {loading
+                        ? "Saving..."
+                        : "Save Address"}
+                </button>
+
+            </form>
         </div>
-
-        {/* Phone */}
-        <div>
-          <input
-            type="tel"
-            name="phone"
-            value={form.phone}
-            placeholder="Phone Number"
-            maxLength={10}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded ${
-              errors.phone
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
-          />
-
-          {errors.phone && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.phone}
-            </p>
-          )}
-        </div>
-
-        {/* Address */}
-        <div>
-          <input
-            type="text"
-            name="addressLine"
-            value={form.addressLine}
-            placeholder="Address"
-            onChange={handleChange}
-            className={`w-full p-2 border rounded ${
-              errors.addressLine
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
-          />
-
-          {errors.addressLine && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.addressLine}
-            </p>
-          )}
-        </div>
-
-        {/* City */}
-        <div>
-          <input
-            type="text"
-            name="city"
-            value={form.city}
-            placeholder="City"
-            onChange={handleChange}
-            className={`w-full p-2 border rounded ${
-              errors.city
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
-          />
-
-          {errors.city && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.city}
-            </p>
-          )}
-        </div>
-
-        {/* State */}
-        <div>
-          <input
-            type="text"
-            name="state"
-            value={form.state}
-            placeholder="State"
-            onChange={handleChange}
-            className={`w-full p-2 border rounded ${
-              errors.state
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
-          />
-
-          {errors.state && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.state}
-            </p>
-          )}
-        </div>
-
-        {/* Pincode */}
-        <div>
-          <input
-            type="text"
-            name="pincode"
-            value={form.pincode}
-            placeholder="Pincode"
-            maxLength={6}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded ${
-              errors.pincode
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
-          />
-
-          {errors.pincode && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.pincode}
-            </p>
-          )}
-        </div>
-
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded disabled:bg-gray-400"
-        >
-          {loading ? "Saving..." : "Save Address"}
-        </button>
-
-      </form>
-    </div>
-  );
+    );
 }
