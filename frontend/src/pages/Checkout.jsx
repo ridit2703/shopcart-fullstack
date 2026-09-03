@@ -1,85 +1,624 @@
+// import { useState, useEffect } from "react";
+// import api from "../api/axios";
+// import { useNavigate } from 'react-router'
+
+// export default function Checkout() {
+//    //const userId = localStorage.getItem("userId");
+//     const [address, setAddress] = useState([])
+//     const [selectAddress, setSelectAddress] = useState(null)
+//     const [cart, setCart] = useState(null);
+//     const navigate = useNavigate();
+
+//     useEffect(() => {
+//         // if (!userId) {
+//         //     navigate("/login");
+//         //     return;
+
+//         // }
+
+//         api.get(`/cart`).then((res) => setCart(res.data));
+//         api.get(`/address`).then((res) => {
+//             setAddress(res.data);
+//             setSelectAddress(res.data[0]);
+
+//         })
+
+
+//     }, []);
+//     if (!cart) {
+//         return <div>Loading..</div>
+//     }
+
+//     const total = cart.items.reduce(
+//         (sum, i) => sum + i.quantity * i.productId.price, 0
+//     )
+
+//     const placeOrder = async () => {
+//         if (!selectAddress) {
+//             alert("Select Address Please");
+//             return;
+//         }
+//         // const res = await api.post("/order/place", {
+//         //     userId, address: selectAddress
+//         // });
+
+//         try {
+//             const res = await api.post("/order/place", {
+                
+//                 address: selectAddress,
+//             });
+
+//             console.log("Order placed:", res.data);
+
+            
+            
+//             navigate(`/order-success/${res.data.order._id}`);
+//         } catch (err) {
+//             console.error(err);
+//             alert(err.response?.data?.message || "Failed to place order");
+//         }
+//     }
+
+//     return (
+//         <div className="max-w-4xl mx-auto p-6">
+//             <h1 className="text-2xl font-bold mb-4">Checkout</h1>
+//             <h2 className="font-semibold mb-2"> Select Address</h2>
+//             {
+//                 address.map((addr) => (
+//                     <label key={addr._id} className="block border p-3 rounded cursor-pointer">
+//                         <input type="radio" name="address" checked={selectAddress?._id === addr._id} onChange={() => setSelectAddress(addr)} className="mr-2" />
+//                         <strong>{addr.fullName}</strong>
+//                         <p className="text-sm">
+//                             {addr.addressLine},{addr.city},{addr.state}-{addr.pincode}
+//                         </p>
+//                         <p className="text-sm">
+//                             {addr.phone}
+//                         </p>
+//                     </label>
+//                 ))
+//             }
+//             <p>Total Amount :Rs {total}</p>
+//             <button onClick={placeOrder} className="mt-4 w-full bg-green-400 text-white p-2 rounded">Place Order</button>
+
+//         </div>
+//     )
+// }
+
+
+// import { useState, useEffect } from "react";
+// import api from "../api/axios";
+// import { useNavigate } from "react-router";
+
+// export default function Checkout() {
+//     const [address, setAddress] = useState([]);
+//     const [selectAddress, setSelectAddress] = useState(null);
+//     const [cart, setCart] = useState(null);
+//     const [loading, setLoading] = useState(true);
+//     const [placingOrder, setPlacingOrder] = useState(false);
+
+//     const navigate = useNavigate();
+
+//     useEffect(() => {
+//         const fetchCheckoutData = async () => {
+//             try {
+//                 const [cartRes, addressRes] = await Promise.all([
+//                     api.get("/cart"),
+//                     api.get("/address"),
+//                 ]);
+
+//                 setCart(cartRes.data);
+//                 setAddress(addressRes.data);
+
+//                 // Select first address by default
+//                 if (addressRes.data.length > 0) {
+//                     setSelectAddress(addressRes.data[0]);
+//                 }
+//             } catch (err) {
+//                 console.error("Checkout loading error:", err);
+
+//                 alert(
+//                     err.response?.data?.message ||
+//                     "Failed to load checkout details"
+//                 );
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+
+//         fetchCheckoutData();
+//     }, []);
+
+//     const placeOrder = async () => {
+//         if (!selectAddress) {
+//             alert("Please select an address");
+//             return;
+//         }
+
+//         if (!cart || cart.items.length === 0) {
+//             alert("Your cart is empty");
+//             return;
+//         }
+
+//         try {
+//             setPlacingOrder(true);
+
+//             // Create Stripe Checkout Session
+//             const res = await api.post("/order/checkout", {
+//                 address: selectAddress,
+//             });
+
+//             console.log("Stripe Checkout Response:", res.data);
+
+//             // Redirect to Stripe
+//             window.location.href = res.data.url;
+
+//         } catch (err) {
+//             console.error("Stripe checkout error:", err);
+
+//             alert(
+//                 err.response?.data?.message ||
+//                 "Failed to start payment"
+//             );
+
+//             setPlacingOrder(false);
+//         }
+//     };
+
+//     if (loading) {
+//         return (
+//             <div className="flex justify-center items-center min-h-screen">
+//                 <p>Loading...</p>
+//             </div>
+//         );
+//     }
+
+//     if (!cart) {
+//         return (
+//             <div className="flex justify-center items-center min-h-screen">
+//                 <p>Unable to load cart.</p>
+//             </div>
+//         );
+//     }
+
+//     const total = cart.items.reduce(
+//         (sum, item) =>
+//             sum + item.quantity * item.productId.price,
+//         0
+//     );
+
+//     return (
+//         <div className="max-w-4xl mx-auto p-6">
+
+//             <h1 className="text-2xl font-bold mb-6">
+//                 Checkout
+//             </h1>
+
+//             {/* Address Section */}
+
+//             <h2 className="font-semibold text-lg mb-3">
+//                 Select Address
+//             </h2>
+
+//             {address.length === 0 ? (
+//                 <div className="border p-4 rounded">
+//                     <p className="text-gray-600">
+//                         No address found.
+//                     </p>
+
+//                     <button
+//                         onClick={() => navigate("/checkout-address")}
+//                         className="mt-3 bg-blue-500 text-white px-4 py-2 rounded"
+//                     >
+//                         Add Address
+//                     </button>
+//                 </div>
+//             ) : (
+//                 <div className="space-y-3">
+
+//                     {address.map((addr) => (
+//                         <label
+//                             key={addr._id}
+//                             className={`block border p-4 rounded cursor-pointer ${
+//                                 selectAddress?._id === addr._id
+//                                     ? "border-green-500 bg-green-50"
+//                                     : "border-gray-300"
+//                             }`}
+//                         >
+//                             <div className="flex items-start">
+
+//                                 <input
+//                                     type="radio"
+//                                     name="address"
+//                                     checked={
+//                                         selectAddress?._id ===
+//                                         addr._id
+//                                     }
+//                                     onChange={() =>
+//                                         setSelectAddress(addr)
+//                                     }
+//                                     className="mr-3 mt-1"
+//                                 />
+
+//                                 <div>
+//                                     <strong>
+//                                         {addr.fullName}
+//                                     </strong>
+
+//                                     <p className="text-sm text-gray-600 mt-1">
+//                                         {addr.addressLine},{" "}
+//                                         {addr.city},{" "}
+//                                         {addr.state} -{" "}
+//                                         {addr.pincode}
+//                                     </p>
+
+//                                     <p className="text-sm text-gray-600">
+//                                         {addr.phone}
+//                                     </p>
+//                                 </div>
+
+//                             </div>
+//                         </label>
+//                     ))}
+
+//                 </div>
+//             )}
+
+//             {/* Order Summary */}
+
+//             <div className="mt-6 border-t pt-4">
+
+//                 <div className="flex justify-between text-lg font-semibold">
+//                     <span>Total Amount</span>
+
+//                     <span>
+//                         ₹{total}
+//                     </span>
+//                 </div>
+
+//                 <button
+//                     onClick={placeOrder}
+//                     disabled={
+//                         placingOrder ||
+//                         !selectAddress ||
+//                         cart.items.length === 0
+//                     }
+//                     className="mt-4 w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white p-3 rounded"
+//                 >
+//                     {placingOrder
+//                         ? "Redirecting to Stripe..."
+//                         : "Pay Now"}
+//                 </button>
+
+//             </div>
+
+//         </div>
+//     );
+// }
+
+
 import { useState, useEffect } from "react";
 import api from "../api/axios";
-import { useNavigate } from 'react-router'
+import { useNavigate } from "react-router";
 
 export default function Checkout() {
-   //const userId = localStorage.getItem("userId");
-    const [address, setAddress] = useState([])
-    const [selectAddress, setSelectAddress] = useState(null)
+    const [address, setAddress] = useState([]);
+    const [selectAddress, setSelectAddress] = useState(null);
     const [cart, setCart] = useState(null);
+
+    const [paymentMethod, setPaymentMethod] = useState("COD");
+    const [placingOrder, setPlacingOrder] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
-        // if (!userId) {
-        //     navigate("/login");
-        //     return;
+        const fetchCheckoutData = async () => {
+            try {
+                const [cartRes, addressRes] = await Promise.all([
+                    api.get("/cart"),
+                    api.get("/address"),
+                ]);
 
-        // }
+                setCart(cartRes.data);
+                setAddress(addressRes.data);
 
-        api.get(`/cart`).then((res) => setCart(res.data));
-        api.get(`/address`).then((res) => {
-            setAddress(res.data);
-            setSelectAddress(res.data[0]);
+                if (addressRes.data.length > 0) {
+                    setSelectAddress(addressRes.data[0]);
+                }
+            } catch (err) {
+                console.error(err);
 
-        })
+                alert(
+                    err.response?.data?.message ||
+                    "Failed to load checkout details"
+                );
+            }
+        };
 
-
+        fetchCheckoutData();
     }, []);
-    if (!cart) {
-        return <div>Loading..</div>
-    }
-
-    const total = cart.items.reduce(
-        (sum, i) => sum + i.quantity * i.productId.price, 0
-    )
 
     const placeOrder = async () => {
         if (!selectAddress) {
-            alert("Select Address Please");
+            alert("Please select an address");
             return;
         }
-        // const res = await api.post("/order/place", {
-        //     userId, address: selectAddress
-        // });
+
+        if (!cart || cart.items.length === 0) {
+            alert("Your cart is empty");
+            return;
+        }
 
         try {
-            const res = await api.post("/order/place", {
-                
-                address: selectAddress,
-            });
+            setPlacingOrder(true);
 
-            console.log("Order placed:", res.data);
+            // =========================
+            // CASH ON DELIVERY
+            // =========================
 
-            
-            
-            navigate(`/order-success/${res.data.order._id}`);
+            if (paymentMethod === "COD") {
+                const res = await api.post("/order/place", {
+                    address: selectAddress,
+                });
+
+                console.log("COD Order:", res.data);
+
+                navigate(
+                    `/order-success/${res.data.order._id}`
+                );
+
+                return;
+            }
+
+            // =========================
+            // STRIPE
+            // =========================
+
+            if (paymentMethod === "STRIPE") {
+                const res = await api.post("/order/checkout", {
+                    address: selectAddress,
+                });
+
+                console.log("Stripe Response:", res.data);
+
+                // Redirect to Stripe Checkout
+                window.location.href = res.data.url;
+            }
+
         } catch (err) {
-            console.error(err);
-            alert(err.response?.data?.message || "Failed to place order");
+            console.error("Order error:", err);
+
+            alert(
+                err.response?.data?.message ||
+                "Failed to place order"
+            );
+        } finally {
+            setPlacingOrder(false);
         }
+    };
+
+    if (!cart) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <p>Loading...</p>
+            </div>
+        );
     }
+
+    const total = cart.items.reduce(
+        (sum, item) =>
+            sum + item.quantity * item.productId.price,
+        0
+    );
 
     return (
         <div className="max-w-4xl mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-4">Checkout</h1>
-            <h2 className="font-semibold mb-2"> Select Address</h2>
-            {
-                address.map((addr) => (
-                    <label key={addr._id} className="block border p-3 rounded cursor-pointer">
-                        <input type="radio" name="address" checked={selectAddress?._id === addr._id} onChange={() => setSelectAddress(addr)} className="mr-2" />
-                        <strong>{addr.fullName}</strong>
-                        <p className="text-sm">
-                            {addr.addressLine},{addr.city},{addr.state}-{addr.pincode}
-                        </p>
-                        <p className="text-sm">
-                            {addr.phone}
-                        </p>
-                    </label>
-                ))
-            }
-            <p>Total Amount :Rs {total}</p>
-            <button onClick={placeOrder} className="mt-4 w-full bg-green-400 text-white p-2 rounded">Place Order</button>
+
+            <h1 className="text-2xl font-bold mb-6">
+                Checkout
+            </h1>
+
+
+            {/* ========================= */}
+            {/* ADDRESS */}
+            {/* ========================= */}
+
+            <h2 className="font-semibold text-lg mb-3">
+                Select Address
+            </h2>
+
+            {address.length === 0 ? (
+                <div className="border p-4 rounded">
+                    <p className="text-gray-600">
+                        No address found.
+                    </p>
+
+                    <button
+                        onClick={() =>
+                            navigate("/checkout-address")
+                        }
+                        className="mt-3 bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                        Add Address
+                    </button>
+                </div>
+            ) : (
+                <div className="space-y-3">
+
+                    {address.map((addr) => (
+                        <label
+                            key={addr._id}
+                            className={`block border p-4 rounded cursor-pointer ${
+                                selectAddress?._id === addr._id
+                                    ? "border-green-500 bg-green-50"
+                                    : "border-gray-300"
+                            }`}
+                        >
+
+                            <div className="flex items-start">
+
+                                <input
+                                    type="radio"
+                                    name="address"
+                                    checked={
+                                        selectAddress?._id ===
+                                        addr._id
+                                    }
+                                    onChange={() =>
+                                        setSelectAddress(addr)
+                                    }
+                                    className="mr-3 mt-1"
+                                />
+
+                                <div>
+                                    <strong>
+                                        {addr.fullName}
+                                    </strong>
+
+                                    <p className="text-sm text-gray-600">
+                                        {addr.addressLine},{" "}
+                                        {addr.city},{" "}
+                                        {addr.state} -{" "}
+                                        {addr.pincode}
+                                    </p>
+
+                                    <p className="text-sm text-gray-600">
+                                        {addr.phone}
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </label>
+                    ))}
+
+                </div>
+            )}
+
+
+            {/* ========================= */}
+            {/* PAYMENT METHOD */}
+            {/* ========================= */}
+
+            <h2 className="font-semibold text-lg mt-6 mb-3">
+                Payment Method
+            </h2>
+
+            <div className="space-y-3">
+
+                {/* COD */}
+
+                <label
+                    className={`block border p-4 rounded cursor-pointer ${
+                        paymentMethod === "COD"
+                            ? "border-green-500 bg-green-50"
+                            : "border-gray-300"
+                    }`}
+                >
+
+                    <div className="flex items-center">
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="COD"
+                            checked={paymentMethod === "COD"}
+                            onChange={(e) =>
+                                setPaymentMethod(e.target.value)
+                            }
+                            className="mr-3"
+                        />
+
+                        <div>
+                            <p className="font-semibold">
+                                Cash on Delivery
+                            </p>
+
+                            <p className="text-sm text-gray-500">
+                                Pay when your order arrives
+                            </p>
+                        </div>
+
+                    </div>
+
+                </label>
+
+
+                {/* STRIPE */}
+
+                <label
+                    className={`block border p-4 rounded cursor-pointer ${
+                        paymentMethod === "STRIPE"
+                            ? "border-blue-500 bg-blue-50"
+                            : "border-gray-300"
+                    }`}
+                >
+
+                    <div className="flex items-center">
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="STRIPE"
+                            checked={paymentMethod === "STRIPE"}
+                            onChange={(e) =>
+                                setPaymentMethod(e.target.value)
+                            }
+                            className="mr-3"
+                        />
+
+                        <div>
+                            <p className="font-semibold">
+                                Pay Online with Stripe
+                            </p>
+
+                            <p className="text-sm text-gray-500">
+                                Pay securely using your card
+                            </p>
+                        </div>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+
+            {/* ========================= */}
+            {/* ORDER SUMMARY */}
+            {/* ========================= */}
+
+            <div className="mt-6 border-t pt-4">
+
+                <div className="flex justify-between text-lg font-semibold">
+
+                    <span>
+                        Total Amount
+                    </span>
+
+                    <span>
+                        ₹{total}
+                    </span>
+
+                </div>
+
+
+                <button
+                    onClick={placeOrder}
+                    disabled={
+                        placingOrder ||
+                        !selectAddress
+                    }
+                    className="mt-4 w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white p-3 rounded"
+                >
+                    {placingOrder
+                        ? "Processing..."
+                        : paymentMethod === "COD"
+                        ? "Place Order"
+                        : "Pay with Stripe"}
+                </button>
+
+            </div>
 
         </div>
-    )
+    );
 }
