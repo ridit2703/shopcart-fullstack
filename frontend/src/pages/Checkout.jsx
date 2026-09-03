@@ -1,6 +1,5 @@
 
 
-
 import { useState, useEffect } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router";
@@ -12,7 +11,7 @@ export default function Checkout() {
 
     const [paymentMethod, setPaymentMethod] = useState("COD");
     const [placingOrder, setPlacingOrder] = useState(false);
-
+    
     const navigate = useNavigate();
 
     useEffect(() => {
