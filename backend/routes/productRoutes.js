@@ -8,7 +8,6 @@ const router=express.Router();
 
 
 
-
 //get all products
 router.get("/",getProducts);
 
