@@ -38,7 +38,7 @@ export default function Cart() {
     const removeItem = async (productId) => {
         try {
             await api.delete("/cart/remove", {
-                productId
+                data: { productId }
             });
 
             await loadCart();

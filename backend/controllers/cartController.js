@@ -40,7 +40,7 @@ export const addToCart = async (req, res) => {
 
         await cart.save();
 
-        resstatus(200).json({
+        res.status(200).json({
             message: "Item added to cart",
             cart
         });
@@ -116,7 +116,15 @@ export const removeItem = async (req, res) => {
             });
         }
 
-        console.log("Cart items:", cart.items);
+        const itemExists=cart.items.some((item)=>
+        item.productId && item.productId.toString()===productId.toString())
+
+        if(!itemExists){
+            return res.status(404).json({message:"Item not found in cart"})
+        }
+
+
+        //console.log("Cart items:", cart.items);
 
         cart.items = cart.items.filter((item) => {
             return item.productId &&
@@ -223,4 +231,5 @@ export const getCart = async (req, res) => {
             error:error.message,
         });
     }
+    
 };
