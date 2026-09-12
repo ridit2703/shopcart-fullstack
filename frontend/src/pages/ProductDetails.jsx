@@ -1,188 +1,651 @@
-import { useState, useEffect } from 'react'
-import api from '../api/axios';
-import { useParams } from 'react-router';
+// import { useState, useEffect } from 'react'
+// import api from '../api/axios';
+// import { useParams } from 'react-router';
 
-export default function ProductDetails() {
-  const { id } = useParams();
-  const [product, setproduct] = useState(null);
+// export default function ProductDetails() {
+//   const { id } = useParams();
+//   const [product, setproduct] = useState(null);
 
-  const loadProduct = async () => {
-    const res = await api.get("/products/");
-    const currentProduct = res.data.find((item) => item._id === id)
-    setproduct(currentProduct)
-  };
+//   const loadProduct = async () => {
+//     const res = await api.get("/products/");
+//     const currentProduct = res.data.find((item) => item._id === id)
+//     setproduct(currentProduct)
+//   };
 
 
 
-  const handleAddToCart = async () => {
-    const userId = localStorage.getItem("userId");
+//   const handleAddToCart = async () => {
+//     const userId = localStorage.getItem("userId");
 
     
-    try {
+//     try {
 
-      await api.post("/cart/add", {
+//       await api.post("/cart/add", {
         
-        productId: product._id,
-      })
-      alert("item added to cart");
+//         productId: product._id,
+//       })
+//       alert("item added to cart");
 
-    }
-    catch (err) {
-      console.log(err.response?.data?.message||"error");
+//     }
+//     catch (err) {
+//       console.log(err.response?.data?.message||"error");
 
-    }
-  }
-  useEffect(() => {
-    loadProduct();
-  }, []);
+//     }
+//   }
+//   useEffect(() => {
+//     loadProduct();
+//   }, []);
 
-  if (!product) {
-    return <div>loading..</div>;
-  }
-  const handleAddToWishlist = async () => {
-    try {
-      await api.post(`/wishlist/${product._id}`);
-      alert("product added to wishlist")
+//   if (!product) {
+//     return <div>loading..</div>;
+//   }
+//   const handleAddToWishlist = async () => {
+//     try {
+//       await api.post(`/wishlist/${product._id}`);
+//       alert("product added to wishlist")
 
-    }
-    catch (error) {
-      alert(error.response?.data?.message || "Error")
+//     }
+//     catch (error) {
+//       alert(error.response?.data?.message || "Error")
 
-    }
-  }
+//     }
+//   }
 
-  // return (
-  //   <div className='p-6 max-w-3xl mx-auto'>
-  //     <img src={product.image} alt={product.title} className=" h-40 object-center"
+//   // return (
+//   //   <div className='p-6 max-w-3xl mx-auto'>
+//   //     <img src={product.image} alt={product.title} className=" h-40 object-center"
 
-  //     />
-  //     <h1 className='text-2xl font-bold mt-4'>{product.title}</h1>
-  //     <p className='text-gray-700 mt-2'>{product.description}</p>
-  //     <p className='text-xl font-semibold mt-4'>Rs {product.price}</p>
+//   //     />
+//   //     <h1 className='text-2xl font-bold mt-4'>{product.title}</h1>
+//   //     <p className='text-gray-700 mt-2'>{product.description}</p>
+//   //     <p className='text-xl font-semibold mt-4'>Rs {product.price}</p>
 
-  //     <button onClick={handleAddToCart} className="mt-6 px-4 bg-blue-600 text-white rounded hover:bg-blue-900"
-  //     >Add to Cart</button>
-  //     <button
-  //       onClick={handleAddToWishlist}
-  //       className="mt-4 ml-3 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700"
-  //     >
-  //       ❤️ Add to Wishlist
-  //     </button>
+//   //     <button onClick={handleAddToCart} className="mt-6 px-4 bg-blue-600 text-white rounded hover:bg-blue-900"
+//   //     >Add to Cart</button>
+//   //     <button
+//   //       onClick={handleAddToWishlist}
+//   //       className="mt-4 ml-3 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700"
+//   //     >
+//   //       ❤️ Add to Wishlist
+//   //     </button>
 
-  //   </div>
+//   //   </div>
 
-  // )
+//   // )
  
 
-  return (
-  <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
-    <div className="max-w-6xl mx-auto">
-      <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-2">
+//   return (
+//   <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
+//     <div className="max-w-6xl mx-auto">
+//       <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
+//         <div className="grid grid-cols-1 md:grid-cols-2">
 
-          {/* Product Image */}
-          <div className="bg-gray-100 flex items-center justify-center p-8 md:p-12">
-            <div className="w-full max-w-lg aspect-square rounded-2xl overflow-hidden bg-white shadow-sm">
-              <img
-                src={product.image}
-                alt={product.title}
-                className="w-full h-full object-contain p-6 hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-          </div>
+//           {/* Product Image */}
+//           <div className="bg-gray-100 flex items-center justify-center p-8 md:p-12">
+//             <div className="w-full max-w-lg aspect-square rounded-2xl overflow-hidden bg-white shadow-sm">
+//               <img
+//                 src={product.image}
+//                 alt={product.title}
+//                 className="w-full h-full object-contain p-6 hover:scale-105 transition-transform duration-500"
+//               />
+//             </div>
+//           </div>
 
-          {/* Product Details */}
-          <div className="p-8 md:p-12 flex flex-col justify-center">
+//           {/* Product Details */}
+//           <div className="p-8 md:p-12 flex flex-col justify-center">
 
-            {/* Badge */}
-            <span className="inline-block w-fit bg-pink-100 text-pink-600 text-sm font-semibold px-4 py-2 rounded-full mb-5">
-              ✨ Featured Product
-            </span>
+//             {/* Badge */}
+//             <span className="inline-block w-fit bg-pink-100 text-pink-600 text-sm font-semibold px-4 py-2 rounded-full mb-5">
+//               ✨ Featured Product
+//             </span>
 
-            {/* Title */}
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-              {product.title}
-            </h1>
+//             {/* Title */}
+//             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+//               {product.title}
+//             </h1>
 
-            {/* Rating */}
-            <div className="flex items-center gap-2 mt-4">
-              <div className="flex text-yellow-400 text-lg">
-                ★★★★★
-              </div>
-              <span className="text-sm text-gray-500">
-                4.8 (120 reviews)
-              </span>
-            </div>
+//             {/* Rating */}
+//             <div className="flex items-center gap-2 mt-4">
+//               <div className="flex text-yellow-400 text-lg">
+//                 ★★★★★
+//               </div>
+//               <span className="text-sm text-gray-500">
+//                 4.8 (120 reviews)
+//               </span>
+//             </div>
 
-            {/* Description */}
-            <p className="text-gray-600 leading-relaxed mt-6 text-base md:text-lg">
-              {product.description}
-            </p>
+//             {/* Description */}
+//             <p className="text-gray-600 leading-relaxed mt-6 text-base md:text-lg">
+//               {product.description}
+//             </p>
 
-            {/* Price */}
-            <div className="mt-7">
-              <p className="text-sm text-gray-500 mb-1">
-                Price
-              </p>
+//             {/* Price */}
+//             <div className="mt-7">
+//               <p className="text-sm text-gray-500 mb-1">
+//                 Price
+//               </p>
 
-              <div className="flex items-center gap-3">
-                <span className="text-3xl font-bold text-gray-900">
-                  ₹{product.price}
-                </span>
+//               <div className="flex items-center gap-3">
+//                 <span className="text-3xl font-bold text-gray-900">
+//                   ₹{product.price}
+//                 </span>
 
-                <span className="text-sm text-green-600 font-semibold bg-green-50 px-3 py-1 rounded-full">
-                  In Stock
-                </span>
-              </div>
-            </div>
+//                 <span className="text-sm text-green-600 font-semibold bg-green-50 px-3 py-1 rounded-full">
+//                   In Stock
+//                 </span>
+//               </div>
+//             </div>
 
-            {/* Divider */}
-            <div className="border-t border-gray-200 my-7"></div>
+//             {/* Divider */}
+//             <div className="border-t border-gray-200 my-7"></div>
 
-            {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3">
+//             {/* Buttons */}
+//             <div className="flex flex-col sm:flex-row gap-3">
 
-              {/* Add to Cart */}
-              <button
-                onClick={handleAddToCart}
-                className="flex-1 flex items-center justify-center gap-2
-                px-6 py-3.5
-                bg-blue-600 text-white
-                font-semibold rounded-xl
-                shadow-md shadow-blue-200
-                hover:bg-blue-700
-                hover:-translate-y-0.5
-                active:translate-y-0
-                transition-all duration-200"
-              >
-                🛒 Add to Cart
-              </button>
+//               {/* Add to Cart */}
+//               <button
+//                 onClick={handleAddToCart}
+//                 className="flex-1 flex items-center justify-center gap-2
+//                 px-6 py-3.5
+//                 bg-blue-600 text-white
+//                 font-semibold rounded-xl
+//                 shadow-md shadow-blue-200
+//                 hover:bg-blue-700
+//                 hover:-translate-y-0.5
+//                 active:translate-y-0
+//                 transition-all duration-200"
+//               >
+//                 🛒 Add to Cart
+//               </button>
 
-              {/* Wishlist */}
-              <button
-                onClick={handleAddToWishlist}
-                className="flex-1 flex items-center justify-center gap-2
-                px-6 py-3.5
-                bg-pink-50 text-pink-600
-                border border-pink-200
-                font-semibold rounded-xl
-                hover:bg-pink-100
-                hover:-translate-y-0.5
-                active:translate-y-0
-                transition-all duration-200"
-              >
-                ❤️ Wishlist
-              </button>
+//               {/* Wishlist */}
+//               <button
+//                 onClick={handleAddToWishlist}
+//                 className="flex-1 flex items-center justify-center gap-2
+//                 px-6 py-3.5
+//                 bg-pink-50 text-pink-600
+//                 border border-pink-200
+//                 font-semibold rounded-xl
+//                 hover:bg-pink-100
+//                 hover:-translate-y-0.5
+//                 active:translate-y-0
+//                 transition-all duration-200"
+//               >
+//                 ❤️ Wishlist
+//               </button>
 
-            </div>
+//             </div>
 
             
 
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+// );
 
+// }
+
+
+import { useState, useEffect } from "react";
+import api from "../api/axios";
+import { useParams } from "react-router";
+
+export default function ProductDetails() {
+  const { id } = useParams();
+
+  const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(true);
+
+  const loadProduct = async () => {
+    try {
+      setLoading(true);
+
+      const res = await api.get("/products/");
+
+      const currentProduct = res.data.find(
+        (item) => item._id === id
+      );
+
+      setProduct(currentProduct);
+
+      // Reset quantity if product is out of stock
+      if (currentProduct?.stock === 0) {
+        setQuantity(0);
+      } else {
+        setQuantity(1);
+      }
+
+    } catch (error) {
+      console.error("Error loading product:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    loadProduct();
+  }, [id]);
+
+
+  const handleAddToCart = async () => {
+    // const userId = localStorage.getItem("userId");
+
+    // if (!userId) {
+    //   alert("Please log in to add items to cart");
+    //   return;
+    // }
+
+    if (!product || product.stock <= 0) {
+      alert("Product is out of stock");
+      return;
+    }
+
+    if (quantity > product.stock) {
+      alert(
+        `Only ${product.stock} items are available`
+      );
+      return;
+    }
+
+    try {
+
+      await api.post("/cart/add", {
+        productId: product._id,
+        quantity,
+      });
+
+      alert(
+        `${quantity} item${
+          quantity > 1 ? "s" : ""
+        } added to cart`
+      );
+
+      window.dispatchEvent(
+        new Event("cartUpdated")
+      );
+
+    } catch (err) {
+
+      console.error(
+        "Add to cart error:",
+        err
+      );
+
+      alert(
+        err.response?.data?.message ||
+          "Unable to add item to cart"
+      );
+    }
+  };
+
+
+  const handleAddToWishlist = async () => {
+    try {
+
+      await api.post(
+        `/wishlist/${product._id}`
+      );
+
+      alert("Product added to wishlist");
+
+    } catch (error) {
+
+      alert(
+        error.response?.data?.message ||
+          "Error"
+      );
+    }
+  };
+
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+
+  if (!product) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-red-500">
+          Product not found
+        </p>
+      </div>
+    );
+  }
+
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
+
+      <div className="max-w-6xl mx-auto">
+
+        <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
+
+          <div className="grid grid-cols-1 md:grid-cols-2">
+
+            {/* Product Image */}
+
+            <div className="bg-gray-100 flex items-center justify-center p-8 md:p-12">
+
+              <div className="w-full max-w-lg aspect-square rounded-2xl overflow-hidden bg-white shadow-sm">
+
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="
+                    w-full
+                    h-full
+                    object-contain
+                    p-6
+                    hover:scale-105
+                    transition-transform
+                    duration-500
+                  "
+                />
+
+              </div>
+
+            </div>
+
+
+            {/* Product Details */}
+
+            <div className="p-8 md:p-12 flex flex-col justify-center">
+
+              {/* Badge */}
+
+              <span
+                className="
+                  inline-block
+                  w-fit
+                  bg-pink-100
+                  text-pink-600
+                  text-sm
+                  font-semibold
+                  px-4 py-2
+                  rounded-full
+                  mb-5
+                "
+              >
+                ✨ Featured Product
+              </span>
+
+
+              {/* Title */}
+
+              <h1
+                className="
+                  text-3xl
+                  md:text-4xl
+                  font-bold
+                  text-gray-900
+                  leading-tight
+                "
+              >
+                {product.title}
+              </h1>
+
+
+              {/* Rating */}
+
+              <div className="flex items-center gap-2 mt-4">
+
+                <div className="flex text-yellow-400 text-lg">
+                  ★★★★★
+                </div>
+
+                <span className="text-sm text-gray-500">
+                  4.8 (120 reviews)
+                </span>
+
+              </div>
+
+
+              {/* Description */}
+
+              <p
+                className="
+                  text-gray-600
+                  leading-relaxed
+                  mt-6
+                  text-base
+                  md:text-lg
+                "
+              >
+                {product.description}
+              </p>
+
+
+              {/* Price + Stock */}
+
+              <div className="mt-7">
+
+                <p className="text-sm text-gray-500 mb-1">
+                  Price
+                </p>
+
+                <div className="flex items-center gap-3">
+
+                  <span className="text-3xl font-bold text-gray-900">
+                    ₹{product.price}
+                  </span>
+
+
+                  {product.stock > 0 ? (
+
+                    <span
+                      className="
+                        text-sm
+                        text-green-600
+                        font-semibold
+                        bg-green-50
+                        px-3 py-1
+                        rounded-full
+                      "
+                    >
+                      {product.stock <= 5
+                        ? `Only ${product.stock} left`
+                        : "In Stock"}
+                    </span>
+
+                  ) : (
+
+                    <span
+                      className="
+                        text-sm
+                        text-red-600
+                        font-semibold
+                        bg-red-50
+                        px-3 py-1
+                        rounded-full
+                      "
+                    >
+                      Out of Stock
+                    </span>
+
+                  )}
+
+                </div>
+
+              </div>
+
+
+              {/* Quantity */}
+
+              {product.stock > 0 && (
+
+                <div className="mt-6">
+
+                  <p className="text-sm font-semibold text-gray-700 mb-2">
+                    Quantity
+                  </p>
+
+                  <div className="flex items-center w-fit border border-gray-300 rounded-xl overflow-hidden">
+
+                    <button
+                      onClick={() =>
+                        setQuantity((prev) =>
+                          Math.max(1, prev - 1)
+                        )
+                      }
+                      disabled={quantity <= 1}
+                      className="
+                        w-12
+                        h-11
+                        text-xl
+                        font-semibold
+                        bg-gray-50
+                        hover:bg-gray-100
+                        disabled:opacity-40
+                        disabled:cursor-not-allowed
+                      "
+                    >
+                      −
+                    </button>
+
+
+                    <span
+                      className="
+                        w-14
+                        h-11
+                        flex
+                        items-center
+                        justify-center
+                        font-semibold
+                      "
+                    >
+                      {quantity}
+                    </span>
+
+
+                    <button
+                      onClick={() =>
+                        setQuantity((prev) =>
+                          Math.min(
+                            product.stock,
+                            prev + 1
+                          )
+                        )
+                      }
+                      disabled={
+                        quantity >= product.stock
+                      }
+                      className="
+                        w-12
+                        h-11
+                        text-xl
+                        font-semibold
+                        bg-gray-50
+                        hover:bg-gray-100
+                        disabled:opacity-40
+                        disabled:cursor-not-allowed
+                      "
+                    >
+                      +
+                    </button>
+
+                  </div>
+
+
+                  <p className="text-sm text-gray-500 mt-2">
+                    {product.stock} items available
+                  </p>
+
+                </div>
+
+              )}
+
+
+              {/* Divider */}
+
+              <div className="border-t border-gray-200 my-7"></div>
+
+
+              {/* Buttons */}
+
+              <div className="flex flex-col sm:flex-row gap-3">
+
+                {/* Add To Cart */}
+
+                <button
+                  onClick={handleAddToCart}
+                  disabled={product.stock === 0}
+                  className="
+                    flex-1
+                    flex
+                    items-center
+                    justify-center
+                    gap-2
+                    px-6
+                    py-3.5
+                    bg-blue-600
+                    text-white
+                    font-semibold
+                    rounded-xl
+                    shadow-md
+                    shadow-blue-200
+                    hover:bg-blue-700
+                    hover:-translate-y-0.5
+                    transition-all
+                    duration-200
+                    disabled:bg-gray-300
+                    disabled:text-gray-500
+                    disabled:cursor-not-allowed
+                    disabled:shadow-none
+                    disabled:hover:translate-y-0
+                  "
+                >
+                  {product.stock === 0
+                    ? "Out of Stock"
+                    : "🛒 Add to Cart"}
+                </button>
+
+
+                {/* Wishlist */}
+
+                <button
+                  onClick={handleAddToWishlist}
+                  className="
+                    flex-1
+                    flex
+                    items-center
+                    justify-center
+                    gap-2
+                    px-6
+                    py-3.5
+                    bg-pink-50
+                    text-pink-600
+                    border
+                    border-pink-200
+                    font-semibold
+                    rounded-xl
+                    hover:bg-pink-100
+                    hover:-translate-y-0.5
+                    transition-all
+                    duration-200
+                  "
+                >
+                  ❤️ Wishlist
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  );
 }

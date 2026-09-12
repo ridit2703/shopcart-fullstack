@@ -50,14 +50,25 @@ export const placeOrder = async (req, res) => {
 
         // Deduct stock
         for (const item of cart.items) {
-            await Product.findByIdAndUpdate(
-                item.productId._id,
+            const updatedProduct=await Product.findByIdAndUpdate(
+                {
+                     _id: item.productId._id,
+                     stock: { $gte: item.quantity }
+
+                },
+                //item.productId._id,
                 {
                     $inc: {
                         stock: -item.quantity,
                     },
+                },{
+                    new:true
                 }
             );
+
+            if(!updatedProduct){
+                return res.status(400).json({message:`${item.productId.title} does not have enough stock`})
+            }
         }
 
 
