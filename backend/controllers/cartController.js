@@ -3,70 +3,7 @@ import Product  from '../models/product.js'
 
 
 // Add item to cart
-// export const addToCart = async (req, res) => {
-//     try {
-//         const {  productId } = req.body;
-//          const userId=req.user.id;
 
-//          if (!productId) {
-//       return res.status(400).json({
-//         message: "Product ID is required",
-//       });
-//     }
-
-//       // Find product
-//         const product = await Product.findById(productId);
-
-//         if (!product) {
-//             return res.status(404).json({
-//                 message: "Product not found",
-//             });
-//         }
-
-//         // Check if product is out of stock
-//         if (product.stock <= 0) {
-//             return res.status(400).json({
-//                 message: "Product is out of stock",
-//             });
-//         }
-
-
-//         let cart = await Cart.findOne({ userId });
-
-//         if (!cart) {
-//             cart = new Cart({
-//                 userId,
-//                 items: [{ productId, quantity: 1 }]
-//             });
-//         } else {
-//             const item = cart.items.find(
-//                 i => i.productId.toString() === productId
-//             );
-
-//             if (item) {
-//                 item.quantity += 1;
-//             } else {
-//                 cart.items.push({
-//                     productId,
-//                     quantity: 1
-//                 });
-//             }
-//         }
-
-//         await cart.save();
-
-//         res.status(200).json({
-//             message: "Item added to cart",
-//             cart
-//         });
-
-//     } catch (error) {
-//         res.status(500).json({
-//             message: "Server Error",
-//             error
-//         });
-//     }
-// };
 
 
 export const addToCart = async (req, res) => {

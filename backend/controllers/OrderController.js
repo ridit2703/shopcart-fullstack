@@ -34,10 +34,7 @@ export const placeOrder = async (req, res) => {
         //calculate totol amount
         const totalAmount = orderItems.reduce((total, item) => total + (item.prices * item.quantity), 0);
 
-        // //deduct 
-        // for (let item of cart.items) {
-        //     await Product.findByIdAndUpdate(item.productId._id, { $inc: { stock: -item.quantity } })
-        // }
+       
 
         // Check stock
         for (const item of cart.items) {

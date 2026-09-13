@@ -51,25 +51,15 @@ export const stripeWebhook = async (req, res) => {
 
             // Mark payment successful
             order.paymentStatus = "paid";
-            //order.paymentId = session.payment_intent;
+            
             order.stripePaymentIntentId = session.payment_intent;
             order.status="Confirmed"
 
 
             await order.save();
 
-            // Deduct stock
-            // for (const item of order.items) {
-
-            //     await Product.findByIdAndUpdate(
-            //         item.product,
-            //         {
-            //             $inc: {
-            //                 stock: -item.quantity
-            //             }
-            //         }
-            //     );
-            // }
+           
+            
 
 
             for (const item of order.items) {
