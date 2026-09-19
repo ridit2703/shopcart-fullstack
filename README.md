@@ -29,9 +29,9 @@ shopcart/
 - ✅ Product Search
 - ✅ Wishlist
 - ✅ Shopping Cart
+- ✅ Stripe Payment Integration
 
 ## Features InProgress
-- 🔨 Stripe Payment Integration — In Progress
 - 🔨 Inventory Management — In Progress
 
 ## ☁️ Cloud Integration
